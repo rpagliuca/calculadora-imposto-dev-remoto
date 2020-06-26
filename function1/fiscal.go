@@ -5,11 +5,11 @@ import (
 )
 
 func gerarEsquemaFiscal(faturamentoAnual float64) (map[string]interface{}, error) {
+
+	// Cálculo progressivo do Imposto Simples Nacional
 	impostoSimples := 0.0
 	restante := faturamentoAnual
 	limiteAnterior := 0.0
-
-	// Cálculo progressivo
 	for _, faixa := range faixasAnexo3 {
 		larguraFaixa := faixa.LimiteMaximo - limiteAnterior
 		impostoSimples += float64(math.Min(restante, larguraFaixa)) * faixa.Aliquota / 100 * PERCENTUAL_CPP_CSLL_IRPJ / 100
@@ -20,12 +20,13 @@ func gerarEsquemaFiscal(faturamentoAnual float64) (map[string]interface{}, error
 		}
 	}
 
+	// Cálculo do pró-labore necessário para se enquadrar no Anexo 3, com base no FATOR R
 	proLabore := faturamentoAnual * PERCENTUAL_FATOR_R / 100
 
-	// Cálculo INSS
+	// Cálculo do INSS sobre pró-labore
 	inss := math.Min(TETO_BASE_INSS_ANUAL, proLabore) * PERCENTUAL_INSS / 100
 
-	// Cálculo IR do pró-labore para fator R
+	// Cálculo do Imposto de Renda Pessoa Física sobre pró-labore para fator R
 	restante = proLabore - inss // INSS deve ser abatido da base cálculo do IR
 	impostoRendaPF := 0.0
 	limiteAnterior = 0.0
@@ -39,7 +40,7 @@ func gerarEsquemaFiscal(faturamentoAnual float64) (map[string]interface{}, error
 		}
 	}
 
-	descontoTotal := impostoSimples + impostoRendaPF + inss
+	impostoTotal := impostoSimples + impostoRendaPF + inss
 
 	// Dados de saída
 	data := map[string]interface{}{
@@ -52,9 +53,9 @@ func gerarEsquemaFiscal(faturamentoAnual float64) (map[string]interface{}, error
 				"imposto-renda-pessoa-fisica": impostoRendaPF,
 				"inss":                        inss,
 			},
-			"imposto-total-em-reais":   descontoTotal,
-			"imposto-total-percentual": descontoTotal / faturamentoAnual * 100,
-			"faturamento-menos-impostos": faturamentoAnual - descontoTotal,
+			"imposto-total-em-reais":     impostoTotal,
+			"imposto-total-percentual":   impostoTotal / faturamentoAnual * 100,
+			"faturamento-menos-impostos": faturamentoAnual - impostoTotal,
 		},
 		"sobre": map[string]interface{}{
 			"repositorio-github":                 "https://github.com/rpagliuca/calculadora-imposto-dev-remoto",
@@ -64,14 +65,18 @@ func gerarEsquemaFiscal(faturamentoAnual float64) (map[string]interface{}, error
 	return data, nil
 }
 
-// Fator de ajuste considerando que todo o faturamento anual
-// é proveniente de clientes no exterior
+// Fator de ajuste considerando que todo o faturamento anual é proveniente de clientes no exterior.
+// É o mesmo para as 4 primeiras faixas do Anexo 3, comando CPP + CSLL + IRPJ
+// Fonte: https://blog.contabilizei.com.br/contabilidade-online/anexo-3-simples-nacional/
 const PERCENTUAL_CPP_CSLL_IRPJ = 50.9
 
+// Fonte: http://normas.receita.fazenda.gov.br/sijut2consulta/link.action?idAto=92278
 const PERCENTUAL_FATOR_R = 28.0
 
+// Fonte: https://www.contabilizei.com.br/contabilidade-online/o-que-e-o-pro-labore/
 const PERCENTUAL_INSS = 11.0
 
+// Fonte: https://www.inss.gov.br/servicos-do-inss/calculo-da-guia-da-previdencia-social-gps/tabela-de-contribuicao-mensal/
 const TETO_BASE_INSS_ANUAL = 6101.06 * 12
 
 type Faixa struct {
@@ -79,6 +84,7 @@ type Faixa struct {
 	Aliquota     float64 `json:"aliquota"`
 }
 
+// Fonte: https://contabilizei.com.br/contabilidade-online/anexo-3-simples-nacional
 var faixasAnexo3 = []Faixa{
 	Faixa{180000.0, 6},
 	Faixa{360000.0, 11.2},
@@ -86,6 +92,7 @@ var faixasAnexo3 = []Faixa{
 	Faixa{1800000.0, 16},
 }
 
+// Fonte: http://receita.economia.gov.br/acesso-rapido/tributos/irpf-imposto-de-renda-pessoa-fisica#c-lculo-anual-do-irpf
 var faixasImpostoRendaPF = []Faixa{
 	Faixa{22847.76, 0},
 	Faixa{33919.80, 7.5},
