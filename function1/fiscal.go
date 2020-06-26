@@ -65,8 +65,8 @@ func gerarEsquemaFiscal(faturamentoAnual float64) (map[string]interface{}, error
 	return data, nil
 }
 
-// Fator de ajuste considerando que todo o faturamento anual é proveniente de clientes no exterior.
-// É o mesmo para as 4 primeiras faixas do Anexo 3, comando CPP + CSLL + IRPJ
+// Fator de ajuste considerando que todo o faturamento anual é proveniente de clientes no exterior
+// É o mesmo para as 4 primeiras faixas do Anexo 3, obtido somando CPP + CSLL + IRPJ
 // Fonte: https://blog.contabilizei.com.br/contabilidade-online/anexo-3-simples-nacional/
 const PERCENTUAL_CPP_CSLL_IRPJ = 50.9
 
