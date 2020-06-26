@@ -54,6 +54,7 @@ func gerarEsquemaFiscal(faturamentoAnual float64) (map[string]interface{}, error
 			},
 			"imposto-total-em-reais":   descontoTotal,
 			"imposto-total-percentual": descontoTotal / faturamentoAnual * 100,
+			"faturamento-menos-impostos": faturamentoAnual - descontoTotal,
 		},
 		"sobre": map[string]interface{}{
 			"repositorio-github":                 "https://github.com/rpagliuca/calculadora-imposto-dev-remoto",
