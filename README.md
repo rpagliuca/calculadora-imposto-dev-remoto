@@ -40,9 +40,9 @@ ______                     _
 
 # Utilização
 
-* Demo em funcionamento:
+* Demo em funcionamento (altere o parâmetro `faturamento-anual` da URL):
     * `https://ooh86uy8d7.execute-api.us-east-1.amazonaws.com/dev?faturamento-anual=120000`
-    (altere o parâmetro `faturamento-anual` da URL)
+    
 
 * A saída JSON possui 3 blocos principais: "input", "output" e "sobre"
     * O bloco `output` apresenta o resultado da simulação
