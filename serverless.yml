@@ -1,5 +1,4 @@
 service: calculadora-imposto-dev-remoto
-frameworkVersion: '>=1.28.0 <2.0.0'
 
 provider:
   name: aws
