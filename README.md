@@ -31,12 +31,26 @@ ______                     _
 \_| \_\___|_| |_| |_|\___/ \__\___/                     
                                                       
 ```
-
-# Sobre 
+# Introdução
 
 * Calculadora de imposto para devs que trabalham no Brasil e que emitem nota para clientes no exterior
 
 * Inspirada no artigo https://medium.com/@hnordt/como-pagar-6-de-impostos-dentro-da-lei-a91c23868ec6
+
+# Código-fonte
+
+Este projeto é organizado em duas partes:
+
+1) Aplicação backend (**este repositório**):
+    * AWS Lambda + Golang
+    * Realiza os cálculos e retorna um JSON com os detalhes dos impostos
+
+2) Aplicação frontend (repositório separado):
+    * Link para o app: https://rpagliuca.github.io/react-calculadora-imposto-dev-remoto
+    * Repositório: https://rpagliuca.github.io/react-calculadora-imposto-dev-remoto
+    * Desenvolvido em ReactJS
+
+**Fun fact**: O CORS foi habilitado no endpoint https://ooh86uy8d7.execute-api.us-east-1.amazonaws.com/dev?faturamento-anual=120000, então qualquer pessoa pode criar novos apps que consumam essa API.
 
 # Utilização
 

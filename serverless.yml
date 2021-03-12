@@ -5,6 +5,8 @@ provider:
   name: aws
   profile: ${file(env.json):AWS_PROFILE}
   runtime: go1.x
+  memorySize: 128
+  timeout: 1
 
 package:
   exclude:
@@ -19,3 +21,4 @@ functions:
       - http:
           path: /
           method: get
+          cors: true
