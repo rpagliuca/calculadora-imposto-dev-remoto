@@ -95,7 +95,7 @@ func formatarSaida(
 		},
 		"sobre": map[string]interface{}{
 			"repositorio-github":                 "https://github.com/rpagliuca/calculadora-imposto-dev-remoto",
-			"constantes-utilizadas-na-simulacao": "https://github.com/rpagliuca/calculadora-imposto-dev-remoto/blob/master/function1/fiscal.go",
+			"constantes-utilizadas-na-simulacao": "https://github.com/rpagliuca/calculadora-imposto-dev-remoto/blob/master/main/fiscal.go",
 		},
 	}
 }

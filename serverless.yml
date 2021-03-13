@@ -14,8 +14,8 @@ package:
     - ./bin/**
 
 functions:
-  function1:
-    handler: bin/function1
+  main:
+    handler: bin/main
     events:
       - http:
           path: /
