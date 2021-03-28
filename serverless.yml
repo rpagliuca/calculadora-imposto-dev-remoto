@@ -6,6 +6,11 @@ provider:
   runtime: go1.x
   memorySize: 128
   timeout: 1
+  apiGateway:
+    usagePlan:
+      quota:
+        limit: 10000
+        period: DAY
 
 package:
   exclude:
