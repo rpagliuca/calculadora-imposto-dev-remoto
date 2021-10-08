@@ -10,7 +10,7 @@ import (
 func readParameters(request Request) (float64, error) {
 	val, ok := request.QueryStringParameters["faturamento-anual"]
 	if !ok {
-		return 0, errors.New("Parâmetro faturamento-anual deve ser inteiro")
+		return 0, errors.New("parâmetro faturamento-anual deve ser float")
 	}
 	valInt, err := strconv.ParseFloat(val, 64)
 	if err != nil {
