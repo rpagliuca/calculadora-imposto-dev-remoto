@@ -17,6 +17,9 @@ func Handler(ctx context.Context, request Request) (Response, error) {
 		return createErrorResponse(err)
 	}
 
+	if faturamentoAnual > 1800000{
+		return createErrorResponse(fmt.Errorf("faturamento Anual maior que o teto da faixa 4 (1.800.000)"))
+	}
 	// Generate fiscal scheme
 	data, err := gerarEsquemaFiscal(faturamentoAnual)
 	if err != nil {
